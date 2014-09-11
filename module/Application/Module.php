@@ -9,10 +9,14 @@
 
 namespace Application;
 
+use Application\Service\EntityManager\EntityManagerAwareInterface;
+use Doctrine\ORM\EntityManager;
+use Zend\ModuleManager\Feature\ConfigProviderInterface;
+use Zend\Mvc\Controller\ControllerManager;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 
-class Module
+class Module implements ConfigProviderInterface
 {
     public function onBootstrap(MvcEvent $e)
     {
@@ -35,5 +39,24 @@ class Module
                 ),
             ),
         );
+    }
+
+
+    /**
+     * @return array|\Zend\ServiceManager\Config
+     */
+    public function getControllerConfig()
+    {
+        return [
+            'initializers' => [
+                'EntityManager' => function ($instance, ControllerManager $sm){
+                        if($instance instanceof EntityManagerAwareInterface){
+                            /** @var EntityManager $entityManager */
+                            $entityManager = $sm->getServiceLocator()->get('Doctrine\ORM\EntityManager');
+                            $instance->setEntityManager($entityManager);
+                        }
+                    }
+            ],
+        ];
     }
 }
