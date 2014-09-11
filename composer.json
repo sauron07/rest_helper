@@ -13,6 +13,7 @@
         "doctrine/doctrine-orm-module": "0.7.*",
         "doctrine/dbal": "2.3.*",
         "doctrine/migrations": "1.0.*@dev",
-        "symfony/yaml": "dev-master"
+        "symfony/yaml": "dev-master",
+        "zf-commons/zfc-user-doctrine-orm": "0.1.*"
     }
 }
