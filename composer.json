@@ -9,6 +9,10 @@
     "homepage": "http://framework.zend.com/",
     "require": {
         "php": ">=5.3.3",
-        "zendframework/zendframework": "2.3.*"
+        "zendframework/zendframework": "2.3.*",
+        "doctrine/doctrine-orm-module": "0.7.*",
+        "doctrine/dbal": "2.3.*",
+        "doctrine/migrations": "1.0.*@dev",
+        "symfony/yaml": "dev-master"
     }
 }
