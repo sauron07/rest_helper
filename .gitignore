@@ -7,4 +7,7 @@ nbproject
 .project
 .settings
 composer.lock
+npm-debug.log
 vendor
+public/js/bower_components/
+node_modules/
