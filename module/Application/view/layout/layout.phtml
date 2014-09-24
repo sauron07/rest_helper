@@ -1,6 +1,6 @@
 <?php echo $this->doctype(); ?>
 
-<html lang="en">
+<html lang="en" ng-app="app">
     <head>
         <meta charset="utf-8">
         <?php echo $this->headTitle('ZF2 '. $this->translate('Skeleton Application'))->setSeparator(' - ')->setAutoEscape(false) ?>
@@ -22,7 +22,12 @@
             ->prependFile($this->basePath() . '/js/jquery.min.js')
             ->prependFile($this->basePath() . '/js/respond.min.js', 'text/javascript', array('conditional' => 'lt IE 9',))
             ->prependFile($this->basePath() . '/js/html5shiv.js',   'text/javascript', array('conditional' => 'lt IE 9',))
-            ->prependFile($this->basePath() . '/js/bower_components/angular/angular.js')
+            ->offsetSetFile(50, $this->basePath() . '/js/bower_components/angular/angular.js')
+            ->offsetSetFile(51, $this->basePath() . '/js/bower_components/angular-route/angular-route.js')
+            ->offsetSetFile(92, $this->basePath() . '/js/app/controllers.js')
+            ->offsetSetFile(90, $this->basePath() . '/js/app/services.js')
+            ->offsetSetFile(100, $this->basePath() . '/js/app/app.js')
+
         ; ?>
 
     </head>
@@ -44,7 +49,8 @@
                 </div><!--/.nav-collapse -->
             </div>
         </nav>
-        <div class="container">
+        <div class="container" ng-controller="mainController">
+            <ng-view/>
             <?php echo $this->content; ?>
             <hr>
             <footer>

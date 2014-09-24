@@ -13,6 +13,8 @@ use Application\Service\Traits\AngularPostDataTrait;
 use Application\Service\UserService;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Mvc\MvcEvent;
+use Zend\Session\SessionManager;
+use Zend\View\Model\JsonModel;
 
 class UserController extends AbstractActionController
 {
@@ -22,6 +24,10 @@ class UserController extends AbstractActionController
      */
     protected $service;
 
+    /**
+     * @param MvcEvent $e
+     * @return mixed|void
+     */
     public function onDispatch(MvcEvent $e)
     {
         $this->service = $this->getServiceLocator()->get('UserService');
@@ -29,11 +35,37 @@ class UserController extends AbstractActionController
     }
 
 
+    /**
+     * @return JsonModel
+     */
     public function loginAction()
     {
-        $data = $this->getPostData();
-        $this->service->loginAction($data);
-        die('controller');
+        if($this->identity()){
+            return new JsonModel(['success' => false, 'message' => 'You are all ready logged on']);
+        }else{
+            $data = $this->getPostData();
+            $user = $this->service->login($data);
+            $sessionId = $this->service->getSessionId();
+            return new JsonModel(['user' => $user, 'session_id' => $sessionId , 'success' => true]);
+        }
+    }
 
+    /**
+     * @return JsonModel
+     */
+    public function logoutAction()
+    {
+        $this->service->logout();
+        return new JsonModel(['success' => true]);
+    }
+
+    /**
+     * @return JsonModel
+     */
+    public function registrationAction()
+    {
+        $data = $this->getPostData();
+        $this->service->registerOperator($data);
+        return new JsonModel(['success' => true]);
     }
 }

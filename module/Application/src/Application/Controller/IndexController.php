@@ -14,10 +14,8 @@ use Application\Service\EntityManager\EntityManagerAwareTrait;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
-class IndexController extends AbstractActionController implements EntityManagerAwareInterface
+class IndexController extends AbstractActionController
 {
-    use EntityManagerAwareTrait;
-
     public function indexAction()
     {
         return new ViewModel();

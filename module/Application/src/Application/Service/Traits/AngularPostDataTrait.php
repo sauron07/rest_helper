@@ -9,6 +9,10 @@
 namespace Application\Service\Traits;
 
 
-trait AngularPostDataTrait {
-
-} 
+trait AngularPostDataTrait
+{
+    public function getPostData()
+    {
+        return json_decode(file_get_contents("php://input"));
+    }
+}

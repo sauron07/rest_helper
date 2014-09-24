@@ -9,6 +9,8 @@
 namespace Application\Controller;
 
 
-class AbstractApiController {
+use Zend\Mvc\Controller\AbstractRestfulController;
 
-} 
+class AbstractApiController extends AbstractRestfulController
+{
+}
