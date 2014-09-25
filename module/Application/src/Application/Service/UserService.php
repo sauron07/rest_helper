@@ -8,8 +8,7 @@ use Application\Service\EntityManager\EntityManagerAwareTrait;
 use DoctrineModule\Authentication\Adapter\ObjectRepository;
 use Zend\Authentication\AuthenticationService;
 use Zend\Session\SessionManager;
-
-use Zend\Session\Container;
+use Zend\Authentication\Result;
 
 /**
  * Class UserService
@@ -54,17 +53,26 @@ class UserService implements EntityManagerAwareInterface
 
         $result = $adapter->authenticate();
 
-        $identity = $result->getIdentity();
-        $this->authService->getStorage()->write($identity);
+        switch ($result->getCode()){
+            case (Result::SUCCESS):
+                $identity = $result->getIdentity();
+                $this->authService->getStorage()->write($identity);
 
-        if(isset($data->rememberMe)){
-            $this->sessionManager->rememberMe(1209600);
+                if(isset($data->rememberMe)){
+                    $this->sessionManager->rememberMe(1209600);
+                }
+
+                $toJson['user'] = $identity->toArray();
+                $toJson['session_id'] = $this->sessionManager->getId();
+                $toJson['success'] = true;
+                return json_decode(json_encode($toJson));
+            case (Result::FAILURE_IDENTITY_NOT_FOUND):
+                return ['success' => false, 'message' => 'User not found.'];
+            case (Result::FAILURE_CREDENTIAL_INVALID):
+                return (['success' => false, 'message' => 'Invalid password']);
+            default:
+                return (['success' => false, 'message' => 'Error while login']);
         }
-        $result = $identity->toArray();
-
-        $this->setSessionId($this->sessionManager->getId());
-
-        return json_decode(json_encode($result));
     }
 
     public function logout()
@@ -83,14 +91,6 @@ class UserService implements EntityManagerAwareInterface
     {
         $operators = new Operators();
         $this->getUserRepository()->registration($operators, $data);
-    }
-
-    /**
-     * @param mixed $sessionId
-     */
-    public function setSessionId($sessionId)
-    {
-        $this->sessionId = $sessionId;
     }
 
     /**

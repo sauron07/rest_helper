@@ -44,9 +44,8 @@ class UserController extends AbstractActionController
             return new JsonModel(['success' => false, 'message' => 'You are all ready logged on']);
         }else{
             $data = $this->getPostData();
-            $user = $this->service->login($data);
-            $sessionId = $this->service->getSessionId();
-            return new JsonModel(['user' => $user, 'session_id' => $sessionId , 'success' => true]);
+            $result = $this->service->login($data);
+            return new JsonModel(['result' => $result]);
         }
     }
 
