@@ -1,0 +1,45 @@
+<div ng-controller="auth">
+    <form ng-submit="register(user)">
+        <table>
+            <tr>
+                <td>Login:</td>
+                <td><input type="text" ng-model="user.login"></td>
+            </tr>
+            <tr>
+                <td>Password:</td>
+                <td><input type="password" ng-model="user.password"></td>
+            </tr>
+            <tr>
+                <td>Email:</td>
+                <td><input type="text" ng-model="user.email"></td>
+            </tr>
+            <tr>
+                <td>Phone:</td>
+                <td><input type="text" ng-model="user.phone"></td>
+            </tr>
+            <tr>
+                <td>First Name:</td>
+                <td><input type="text" ng-model="user.first_name"></td>
+            </tr>
+            <tr>
+                <td>Middle Name:</td>
+                <td><input type="text" ng-model="user.middle_name"></td>
+            </tr>
+            <tr>
+                <td>Last Name:</td>
+                <td><input type="text" ng-model="user.last_name"></td>
+            </tr>
+            <tr>
+                <td>Gender:</td>
+                <td>
+                    Woman: <input type="radio" name="gender" value="woman" ng-model="user.gender">
+                    Man: <input type="radio" name="gender" value="man" ng-model="user.gender">
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit"></td>
+            </tr>
+        </table>
+    </form>
+</div>
